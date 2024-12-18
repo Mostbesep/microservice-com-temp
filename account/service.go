@@ -6,9 +6,9 @@ import (
 )
 
 type Service interface {
-	PostAccount(ctx context.Context, name string) (*Account, error)
-	GetAccount(ctx context.Context, id string) (*Account, error)
-	GetAccounts(ctx context.Context, skip uint64, take uint64) ([]Account, error)
+	PostAccount(ctx context.Context, name string) (Account, error)
+	GetAccount(ctx context.Context, id string) (Account, error)
+	GetAccounts(ctx context.Context, skip uint64, take uint64) (*[]Account, error)
 }
 
 type Account struct {
@@ -20,30 +20,30 @@ type service struct {
 	repository Repository
 }
 
-func (s *service) PostAccount(ctx context.Context, name string) (*Account, error) {
-	a := &Account{
+func (s *service) PostAccount(ctx context.Context, name string) (Account, error) {
+	a := Account{
 		Name: name,
 		ID:   ksuid.New().String(),
 	}
-	err := s.repository.PutAccount(ctx, *a)
+	err := s.repository.PutAccount(ctx, a)
 	if err != nil {
-		return nil, err
+		return Account{}, err
 	}
 	return a, nil
 }
 
-func (s *service) GetAccount(ctx context.Context, id string) (*Account, error) {
+func (s *service) GetAccount(ctx context.Context, id string) (Account, error) {
 	return s.repository.GetAccountByID(ctx, id)
 }
 
-func (s *service) GetAccounts(ctx context.Context, skip uint64, take uint64) ([]Account, error) {
+func (s *service) GetAccounts(ctx context.Context, skip uint64, take uint64) (*[]Account, error) {
 	if take > 100 || (skip == 0 && take == 0) {
 		take = 100
 	}
 	return s.repository.ListAccounts(ctx, skip, take)
 }
 
-func newAccountService(repository Repository) Service {
+func NewAccountService(repository Repository) Service {
 	return &service{
 		repository: repository,
 	}

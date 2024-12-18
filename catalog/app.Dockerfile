@@ -5,7 +5,7 @@ WORKDIR /go/src/github.com/Mostbesep/microservice-com-temp
 COPY go.mod go.sum ./
 COPY vendor vendor
 COPY account account
-RUN GO111MODULE=on go build -mod vendor -o /go/bin/app ./account/cmd/account
+RUN GO111MODULE=on go build -mod vendor -o /go/bin/app ./catalog/cmd/catalog
 
 FROM alpine:3.21
 WORKDIR /usr/bin

@@ -4,7 +4,7 @@ package account
 import (
 	"context"
 	"fmt"
-	"github.com/Mostbesep/microservice-com-temp/account/pb/github.com/Mostbesep/microservice-com-temp/account/pb"
+	pb "github.com/Mostbesep/microservice-com-temp/account/pb/microservice-com-temp.account.pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"net"
@@ -12,6 +12,7 @@ import (
 
 type grpcServer struct {
 	service Service
+	pb.UnimplementedAccountServiceServer
 }
 
 func ListenGRPC(s Service, port int) error {
@@ -20,7 +21,10 @@ func ListenGRPC(s Service, port int) error {
 		return err
 	}
 	server := grpc.NewServer()
-	//pb.(server)
+	pb.RegisterAccountServiceServer(server, &grpcServer{
+		UnimplementedAccountServiceServer: pb.UnimplementedAccountServiceServer{},
+		service:                           s,
+	})
 	reflection.Register(server)
 	return server.Serve(lis)
 }
@@ -58,7 +62,7 @@ func (s *grpcServer) GetAccounts(ctx context.Context, r *pb.GetAccountsRequest) 
 	}
 
 	var packedAccounts []*pb.Account
-	for _, a := range accounts {
+	for _, a := range *accounts {
 		packedAccounts = append(packedAccounts, &pb.Account{
 			Id:   a.ID,
 			Name: a.Name,
