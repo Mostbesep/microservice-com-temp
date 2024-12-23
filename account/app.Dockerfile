@@ -4,7 +4,11 @@ RUN apk --no-cache add gcc g++ make ca-certificates
 WORKDIR /go/src/github.com/Mostbesep/microservice-com-temp
 COPY go.mod go.sum ./
 COPY vendor vendor
+
+COPY product product
 COPY account account
+COPY order order
+
 RUN GO111MODULE=on go build -mod vendor -o /go/bin/app ./account/cmd/account
 
 FROM alpine:3.21

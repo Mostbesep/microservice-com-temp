@@ -9,7 +9,7 @@ COPY product product
 COPY account account
 COPY order order
 
-RUN GO111MODULE=on go build -mod vendor -o /go/bin/app ./catalog/cmd/catalog
+RUN GO111MODULE=on go build -mod vendor -o /go/bin/app ./order/cmd/order
 
 FROM alpine:3.21
 WORKDIR /usr/bin
