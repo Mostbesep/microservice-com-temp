@@ -26,6 +26,9 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// use deprecated NewDefaultServer instead New reason: use playground option in browser
+	// for handle err in response:
+	// [{"message":"transport not supported"}],"data":null}
 	http.Handle("/graphql", handler.NewDefaultServer(s.ToExecutableSchema()))
 	http.Handle("/playground", playground.Handler("GraphQL playground", "/graphql"))
 
