@@ -146,6 +146,7 @@ func NewElasticRepository(url string) (Repository, error) {
 	client, err := elastic.NewClient(
 		elastic.SetURL(url),
 		elastic.SetSniff(false),
+		elastic.SetHealthcheck(false),
 	)
 	if err != nil {
 		return nil, err

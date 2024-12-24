@@ -2,17 +2,17 @@ services:
   account:
     build:
       context: .
-      dockerfile: ./account/app.dockerfile
+      dockerfile: ./account/app.Dockerfile
     depends_on:
       - account_db
     environment:
-      DATABASE_URL: postgres://akhil:123456@account_db/akhil?sslmode=disable
+      DATABASE_URL: postgres://mostafa:123456@account_db/mostafa?sslmode=disable
     restart: on-failure
 
   catalog:
     build:
       context: .
-      dockerfile: ./catalog/app.dockerfile
+      dockerfile: ./catalog/app.Dockerfile
     depends_on:
       - catalog_db
     environment:
@@ -22,11 +22,11 @@ services:
   order:
     build:
       context: .
-      dockerfile: ./order/app.dockerfile
+      dockerfile: ./order/app.Dockerfile
     depends_on:
       - order_db
     environment:
-      DATABASE_URL: postgres://akhil:123456@order_db/akhil?sslmode=disable
+      DATABASE_URL: postgres://mostafa:123456@order_db/mostafa?sslmode=disable
       ACCOUNT_SERVICE_URL: account:8080
       CATALOG_SERVICE_URL: catalog:8080
     restart: on-failure
@@ -34,7 +34,7 @@ services:
   graphql:
     build:
       context: .
-      dockerfile: ./graphql/app.dockerfile
+      dockerfile: ./graphql/app.Dockerfile
     ports:
       - 8000:8080
     depends_on:
@@ -49,10 +49,10 @@ services:
   account_db:
     build:
       context: ./account
-      dockerfile: ./db.dockerfile
+      dockerfile: ./db.Dockerfile
     environment:
-      POSTGRES_DB: akhil
-      POSTGRES_USER: akhil
+      POSTGRES_DB: mostafa
+      POSTGRES_USER: mostafa
       POSTGRES_PASSWORD: 123456
     restart: unless-stopped
 
@@ -65,9 +65,9 @@ services:
   order_db:
     build:
       context: ./order
-      dockerfile: ./db.dockerfile
+      dockerfile: ./db.Dockerfile
     environment:
-      POSTGRES_DB: akhil
-      POSTGRES_USER: akhil
+      POSTGRES_DB: mostafa
+      POSTGRES_USER: mostafa
       POSTGRES_PASSWORD: 123456
     restart: unless-stopped

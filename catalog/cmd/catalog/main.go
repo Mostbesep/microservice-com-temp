@@ -21,10 +21,10 @@ func main() {
 	}
 
 	var r catalog.Repository
-	retry.ForeverSleep(2*time.Second, func(_ int) (err error) {
+	retry.ForeverSleep(2*time.Second, func(i int) (err error) {
 		r, err = catalog.NewElasticRepository(cfg.DatabaseURL)
 		if err != nil {
-			log.Println(err)
+			log.Println(err, i)
 		}
 		return
 	})

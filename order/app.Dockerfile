@@ -5,7 +5,7 @@ WORKDIR /go/src/github.com/Mostbesep/microservice-com-temp
 COPY go.mod go.sum ./
 COPY vendor vendor
 
-COPY product product
+COPY catalog catalog
 COPY account account
 COPY order order
 
